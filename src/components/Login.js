@@ -1,6 +1,11 @@
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+
 import styled from 'styled-components';
+import axios from 'axios';
+
+import logo from './logo.png';
+
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -13,6 +18,7 @@ export default function Login() {
 
   return (
     <Container>
+      <img src={logo} alt='logo'/>
       <form onSubmit={submitLogin}>
         <input
           type='email'

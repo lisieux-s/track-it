@@ -1,20 +1,51 @@
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
+
 import styled from 'styled-components';
+import axios from 'axios';
+
+import logo from './logo.png';
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
+import Loader from "react-loader-spinner";
 
 export default function Cadastro() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
-  const [url, setUrl] = useState('');
+  const [image, setImage] = useState('');
+
+  const [loading, setLoading] = useState(false);
 
   function submitSignUp(e) {
     e.preventDefault();
-    //send info to axios
-  }
 
-  return (
-    <Container>
+      let pSignUp = axios.post(
+        'https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up',
+        {
+          email,
+          name,
+          image,
+          password
+        }
+      );
+      setLoading(true);
+
+      pSignUp.then(res => {
+        //redirecionar para rota login
+        setLoading(false)
+      })
+
+      pSignUp.catch(res => {
+        alert(res);
+        setLoading(false)
+      })
+
+  }
+  if(loading) {
+    //colocar as coisinhas do loading
+    return (
+      <Container>
+      <img src={logo} alt='logo'/>
       <form onSubmit={submitSignUp}>
         <input
           type='email'
@@ -37,8 +68,50 @@ export default function Cadastro() {
         <input
           type='url'
           placeholder='foto'
-          value={url}
-          onChange={(e) => setUrl(e.target.value)}
+          value={image}
+          onChange={(e) => setImage(e.target.value)}
+        />
+        <button type='submit'>
+
+        <Loader type="ThreeDots"
+        color="#FFFFFF"
+    
+      />
+
+        </button>
+      </form>
+      <StyledLink to='/'>Já tem uma conta? Faça login!</StyledLink>
+    </Container>
+    )
+  }
+
+  return (
+    <Container>
+      <img src={logo} alt='logo'/>
+      <form onSubmit={submitSignUp}>
+        <input
+          type='email'
+          placeholder='email'
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <input
+          type='password'
+          placeholder='senha'
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <input
+          type='text'
+          placeholder='nome'
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+        <input
+          type='url'
+          placeholder='foto'
+          value={image}
+          onChange={(e) => setImage(e.target.value)}
         />
         <button type='submit'>Cadastrar</button>
       </form>
@@ -46,6 +119,8 @@ export default function Cadastro() {
     </Container>
   );
 }
+
+
 
 const Container = styled.div`
   display: flex;

@@ -7,6 +7,7 @@ import axios from 'axios';
 import logo from './logo.png';
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import Loader from "react-loader-spinner";
+import { useEffect } from 'react/cjs/react.development';
 
 export default function Cadastro() {
   const [email, setEmail] = useState('');
@@ -15,6 +16,7 @@ export default function Cadastro() {
   const [image, setImage] = useState('');
 
   const [loading, setLoading] = useState(false);
+  const [buttonContent, setButtonContent] = useState('Cadastrar')
 
   function submitSignUp(e) {
     e.preventDefault();
@@ -41,49 +43,19 @@ export default function Cadastro() {
       })
 
   }
-  if(loading) {
-    //colocar as coisinhas do loading
-    return (
-      <Container>
-      <img src={logo} alt='logo'/>
-      <form onSubmit={submitSignUp}>
-        <input
-          type='email'
-          placeholder='email'
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <input
-          type='password'
-          placeholder='senha'
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <input
-          type='text'
-          placeholder='nome'
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <input
-          type='url'
-          placeholder='foto'
-          value={image}
-          onChange={(e) => setImage(e.target.value)}
-        />
-        <button type='submit'>
+  useEffect(() => {
 
-        <Loader type="ThreeDots"
-        color="#FFFFFF"
-    
-      />
+    if(loading) {
+      setButtonContent(
+      <Loader
+      type="ThreeDots"
+      color="#FFFFFF"
+    />
+      )
+    }
 
-        </button>
-      </form>
-      <StyledLink to='/'>Já tem uma conta? Faça login!</StyledLink>
-    </Container>
-    )
-  }
+  }, [])
+  
 
   return (
     <Container>
@@ -113,7 +85,7 @@ export default function Cadastro() {
           value={image}
           onChange={(e) => setImage(e.target.value)}
         />
-        <button type='submit'>Cadastrar</button>
+        <button type='submit'>{buttonContent}</button>
       </form>
       <StyledLink to='/'>Já tem uma conta? Faça login!</StyledLink>
     </Container>

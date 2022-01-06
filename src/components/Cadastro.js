@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import styled from 'styled-components';
 import axios from 'axios';
@@ -7,7 +7,6 @@ import axios from 'axios';
 import logo from './logo.png';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 import Loader from 'react-loader-spinner';
-import { useEffect } from 'react/cjs/react.development';
 
 export default function Cadastro() {
   const [email, setEmail] = useState('');
@@ -18,8 +17,6 @@ export default function Cadastro() {
   const [loading, setLoading] = useState(false);
   const [buttonContent, setButtonContent] = useState('Cadastrar');
   const [disabled, setDisabled] = useState(false);
-  const [inputBgColor, setInputBgColor] = useState('');
-  const [buttonBgColor, setButtonBgColor] = useState('');
 
   let navigate = useNavigate();
 
@@ -52,8 +49,7 @@ export default function Cadastro() {
   useEffect(() => {
     if (loading) {
       setButtonContent(<Loader type='ThreeDots' color='#FFFFFF' />);
-      setButtonBgColor('#F2F2F2');
-      setInputBgColor('#F2F2F2');
+
     }
   }, []);
 
@@ -89,7 +85,10 @@ export default function Cadastro() {
           onChange={(e) => setImage(e.target.value)}
           disabled={disabled}
         />
-        <button type='submit' disabled={disabled}>
+        <button 
+          type='submit' 
+          disabled={disabled}
+          >
           {buttonContent}
         </button>
       </form>
@@ -119,9 +118,11 @@ const Container = styled.div`
       border-radius: 5px;
       height: 45px;
 
-      color: #dbdbdb;
+      color: #DBDBDB;
       font-size: 19.98px;
-
+      background: 
+      ${props => 
+      props.disabled ? '#F2F2F2' : '#FFFFFF'};
       padding: 9px;
     }
     button {
@@ -129,7 +130,9 @@ const Container = styled.div`
       border-radius: 5px;
       height: 45px;
 
-      background: #52b6ff;
+      background: 
+      ${props => 
+      props.disabled ? '#52B6FFB3' : '#52B6FF'};
       color: #ffffff;
     }
   }

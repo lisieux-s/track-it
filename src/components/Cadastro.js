@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 import styled from 'styled-components';
 import axios from 'axios';
@@ -14,8 +14,6 @@ export default function Cadastro() {
   const [name, setName] = useState('');
   const [image, setImage] = useState('');
 
-  const [loading, setLoading] = useState(false);
-  const [buttonContent, setButtonContent] = useState('Cadastrar');
   const [disabled, setDisabled] = useState(false);
 
   let navigate = useNavigate();
@@ -32,29 +30,21 @@ export default function Cadastro() {
         password,
       }
     );
-    setLoading(true);
+    setDisabled(true);
 
     pSignUp.then((res) => {
-      //redirecionar para rota login
-      setLoading(false);
-      navigate('/')
-
+      navigate('/');
+      setDisabled(false);
     });
 
     pSignUp.catch((res) => {
       alert(res);
-      setLoading(false);
+      setDisabled(false);
     });
   }
-  useEffect(() => {
-    if (loading) {
-      setButtonContent(<Loader type='ThreeDots' color='#FFFFFF' />);
-
-    }
-  }, []);
 
   return (
-    <Container>
+    <Container disabled={disabled}>
       <img src={logo} alt='logo' />
       <form onSubmit={submitSignUp}>
         <input
@@ -62,34 +52,27 @@ export default function Cadastro() {
           placeholder='email'
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          disabled={disabled}
         />
         <input
           type='password'
           placeholder='senha'
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          disabled={disabled}
         />
         <input
           type='text'
           placeholder='nome'
           value={name}
           onChange={(e) => setName(e.target.value)}
-          disabled={disabled}
         />
         <input
           type='url'
           placeholder='foto'
           value={image}
           onChange={(e) => setImage(e.target.value)}
-          disabled={disabled}
         />
-        <button 
-          type='submit' 
-          disabled={disabled}
-          >
-          {buttonContent}
+        <button type='submit'>
+          {disabled ? <Loader type='ThreeDots' color='#FFFFFF' /> : 'Cadastrar'}
         </button>
       </form>
       <StyledLink to='/'>Já tem uma conta? Faça login!</StyledLink>
@@ -118,11 +101,9 @@ const Container = styled.div`
       border-radius: 5px;
       height: 45px;
 
-      color: #DBDBDB;
+      color: #dbdbdb;
       font-size: 19.98px;
-      background: 
-      ${props => 
-      props.disabled ? '#F2F2F2' : '#FFFFFF'};
+      background: ${(props) => (props.disabled ? '#F2F2F2' : '#FFFFFF')};
       padding: 9px;
     }
     button {
@@ -130,9 +111,7 @@ const Container = styled.div`
       border-radius: 5px;
       height: 45px;
 
-      background: 
-      ${props => 
-      props.disabled ? '#52B6FFB3' : '#52B6FF'};
+      background: ${(props) => (props.disabled ? '#52B6FFB3' : '#52B6FF')};
       color: #ffffff;
     }
   }
@@ -146,3 +125,7 @@ const StyledLink = styled(Link)`
     font-size: 13.98px;
   }
 `;
+
+//pq disabled state nao faz os negocios mudarem de cor?
+//estao disabled, mas nao esta mudando de cor
+//pq nao atualiza a cor?

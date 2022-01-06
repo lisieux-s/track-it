@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
 import styled from 'styled-components';
@@ -21,6 +21,8 @@ export default function Cadastro() {
   const [inputBgColor, setInputBgColor] = useState('');
   const [buttonBgColor, setButtonBgColor] = useState('');
 
+  let navigate = useNavigate();
+
   function submitSignUp(e) {
     e.preventDefault();
 
@@ -38,6 +40,8 @@ export default function Cadastro() {
     pSignUp.then((res) => {
       //redirecionar para rota login
       setLoading(false);
+      navigate('/')
+
     });
 
     pSignUp.catch((res) => {

@@ -1,24 +1,47 @@
-import { Link } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 import styled from 'styled-components';
 import axios from 'axios';
 
 import logo from './logo.png';
-
+import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
+import Loader from 'react-loader-spinner';
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const [disabled, setDisabled] = useState(false);
+
+  let navigate = useNavigate();
+
   function submitLogin(e) {
     e.preventDefault();
-    //send email and password to axios
+
+    let pLogin = axios.post(
+      'https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login',
+      {
+        email,
+        password,
+      }
+    );
+    setDisabled(true);
+
+  pLogin.then((res) => {
+    navigate('/hoje');
+    setDisabled(false);
+  });
+
+  pLogin.catch((res) => {
+    alert(res);
+    setDisabled(false);
+  });
   }
 
   return (
-    <Container>
-      <img src={logo} alt='logo'/>
+    <Container disabled={disabled}>
+      <img src={logo} alt='logo' />
       <form onSubmit={submitLogin}>
         <input
           type='email'
@@ -32,7 +55,10 @@ export default function Login() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button type='submit'>Entrar</button>
+        <button type='submit'>
+        {disabled ? <Loader type='ThreeDots' color='#FFFFFF' /> : 'Entrar'}
+
+        </button>
       </form>
       <StyledLink to='/cadastro'>Não tem uma conta? Cadastre-se!</StyledLink>
     </Container>
@@ -62,15 +88,19 @@ const Container = styled.div`
 
       color: #dbdbdb;
       font-size: 19.98px;
-
+      background: ${(props) => (props.disabled ? '#F2F2F2' : '#FFFFFF')};
       padding: 9px;
     }
     button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
       border: none;
       border-radius: 5px;
       height: 45px;
 
-      background: #52b6ff;
+      background: ${(props) => (props.disabled ? '#52B6FFB3' : '#52B6FF')};
       color: #ffffff;
     }
   }

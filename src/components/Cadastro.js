@@ -107,6 +107,10 @@ const Container = styled.div`
       padding: 9px;
     }
     button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      
       border: none;
       border-radius: 5px;
       height: 45px;
@@ -125,7 +129,3 @@ const StyledLink = styled(Link)`
     font-size: 13.98px;
   }
 `;
-
-//pq disabled state nao faz os negocios mudarem de cor?
-//estao disabled, mas nao esta mudando de cor
-//pq nao atualiza a cor?

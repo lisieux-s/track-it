@@ -31,5 +31,6 @@ const Container = styled.div`
   }
   p {
     color: #bababa;
+    margin-top: 30px;
   }
 `;

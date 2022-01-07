@@ -25,6 +25,16 @@ export default function Hoje(props) {
             <img src='' alt='ayyy lmao' />
           </Checkmark>
         </Habit>
+        <Habit>
+          <div>
+            <h1>Ler 1 capítulo de livro</h1>
+            <p>Sequência atual: 3 dias</p>
+            <p>Seu recorde: 5 dias</p>
+          </div>
+          <Checkmark>
+            <img src='' alt='ayyy lmao' />
+          </Checkmark>
+        </Habit>
       </Container>
     </>
   );
@@ -64,6 +74,7 @@ const Habit = styled.div`
     justify-content: space-between;
     height: 94px;
     padding: 12px;
+    margin-bottom: 10px;
 
     border-radius: 5px;
     background: #FFFFFF;

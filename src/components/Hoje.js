@@ -1,15 +1,23 @@
 import Top from './Top';
 import Menu from './Menu';
 import styled from 'styled-components';
+import dayjs from 'dayjs';
+import 'dayjs/locale/pt-br';
+
 
 export default function Hoje(props) {
+  
+  dayjs.locale('pt-br');
+
   return (
     <>
       <Top />
       <Menu />
       <Container>
         <header>
-          <h1>Segunda, 17/05</h1>
+          <h1>
+            {dayjs().format('dddd, DD/MM')}
+          </h1>
           <p>Nenhum hábito concluído ainda</p>
         </header>
         {

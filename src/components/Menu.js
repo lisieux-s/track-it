@@ -5,7 +5,7 @@ import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 
 export default function Menu() {
-  const [percentage, setPercentage] = [95]
+  const [percentage, setPercentage] = [95];
 
   return (
     <MenuContainer>
@@ -14,15 +14,15 @@ export default function Menu() {
       </StyledLink>
       <StyledLink to='/hoje'>
         <CircularProgressbarWrapper>
-          <CircularProgressbar 
-          value={percentage} 
-          text='Hoje' 
-          styles={buildStyles({
-            backgroundColor: '#52B6FF',
-            textColor: "#fff",
-            pathColor: "#fff",
-            trailColor: "transparent"
-          })}
+          <CircularProgressbar
+            value={percentage}
+            text='Hoje'
+            styles={buildStyles({
+              backgroundColor: '#52B6FF',
+              textColor: '#fff',
+              pathColor: '#fff',
+              trailColor: 'transparent',
+            })}
           />
         </CircularProgressbarWrapper>
       </StyledLink>
@@ -50,8 +50,7 @@ const MenuContainer = styled.div`
   color: #52b6ff;
 `;
 const CircularProgressbarWrapper = styled.div`
-
-  background: #52B6FF;
+  background: #52b6ff;
   padding: 6px;
   width: 91px;
   height: 91px;
@@ -59,7 +58,7 @@ const CircularProgressbarWrapper = styled.div`
   margin-bottom: 50px;
 `;
 
-const StyledLink = styled.div`
+const StyledLink = styled(Link)`
   color: #52b6ff;
   text-decoration: none;
 `;

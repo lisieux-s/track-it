@@ -4,11 +4,11 @@ import UserContext from "../contexts/UserContext";
 
 export default function Top() {
     const { user, setUser } = useContext(UserContext);
-    console.log(user)
+    console.log(user);
     return(
         <TopContainer>
             <img src='src/assets/TrackIt.png' alt='TrackIt'/>
-            <User src={user.image} alt='User' />
+            <User src={user.image}alt='User' />
         </TopContainer>
     )
 }

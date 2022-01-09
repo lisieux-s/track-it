@@ -6,14 +6,14 @@ import Hoje from './components/Hoje';
 import Habitos from './components/Habitos';
 import Historico from './components/Historico';
 
-import UserContext from './contexts/UserContext';
+import UserImageContext from './contexts/UserImageContext';
 import { useState } from 'react';
 
 export default function App() {
-  const [user, setUser] = useState(null)
+  const [userImage, setUserImage] = useState(null)
 
   return (
-    <UserContext.Provider value={{user, setUser}}>
+    <UserImageContext.Provider value={{userImage, setUserImage}}>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Login />} />
@@ -23,6 +23,6 @@ export default function App() {
           <Route path="/historico" element={<Historico />} />
         </Routes>
       </BrowserRouter>
-    </UserContext.Provider>
+    </UserImageContext.Provider>
   );
 }

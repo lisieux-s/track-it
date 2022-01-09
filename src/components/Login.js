@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useState, useContext } from 'react';
-import UserContext from '../contexts/UserContext';
+import UserImageContext from '../contexts/UserImageContext';
 import TokenContext from '../contexts/TokenContext';
 
 import styled from 'styled-components';
@@ -16,7 +16,7 @@ export default function Login() {
 
   const [disabled, setDisabled] = useState(false);
 
-  const { user, setUser } = useContext(UserContext);
+  const { userImage, setUserImage } = useContext(UserImageContext);
 
   let navigate = useNavigate();
 
@@ -35,7 +35,7 @@ export default function Login() {
   pLogin.then((res) => {
     navigate('/hoje');
     setDisabled(false);
-    setUser(res.data);
+    setUserImage(res.data.image);
   });
 
   pLogin.catch((res) => {

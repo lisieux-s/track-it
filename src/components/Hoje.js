@@ -6,9 +6,8 @@ import styled from 'styled-components';
 import dayjs from 'dayjs';
 import 'dayjs/locale/pt-br';
 
-export default function Hoje(props) {
+export default function Hoje() {
   dayjs.locale('pt-br');
-
   return (
     <>
       <Top />

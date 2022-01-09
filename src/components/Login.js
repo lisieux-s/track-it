@@ -1,6 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useState, useContext } from 'react';
 import UserContext from '../contexts/UserContext';
+import TokenContext from '../contexts/TokenContext';
 
 import styled from 'styled-components';
 import axios from 'axios';
@@ -15,7 +16,7 @@ export default function Login() {
 
   const [disabled, setDisabled] = useState(false);
 
-  const { token, setToken } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
 
   let navigate = useNavigate();
 
@@ -34,7 +35,7 @@ export default function Login() {
   pLogin.then((res) => {
     navigate('/hoje');
     setDisabled(false);
-    setToken(res.data.token)
+    setUser(res.data);
   });
 
   pLogin.catch((res) => {
@@ -42,7 +43,6 @@ export default function Login() {
     setDisabled(false);
   });
   }
-
   return (
     <Container disabled={disabled}>
       <img src={logo} alt='logo' />

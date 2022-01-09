@@ -1,6 +1,23 @@
 import styled from 'styled-components';
+import checkmark from '../assets/Checkmark.svg'
+import { useState, useContext } from 'react';
 
-export default function Habit() {
+import PercentageContext from '../contexts/PercentageContext';
+
+export default function Habit(props) {
+  const [checked, setChecked] = useState(false);
+  const {percentage, setPercentage} = useContext(PercentageContext);
+
+  function handleClick() {
+    setChecked(!checked);
+    if(checked) {
+      setPercentage(100)
+    } else {
+      setPercentage(0)
+    }
+    console.log(percentage)
+  }
+
   return (
     <HabitWrapper>
       <div>
@@ -8,8 +25,8 @@ export default function Habit() {
         <p>Sequência atual: 3 dias</p>
         <p>Seu recorde: 5 dias</p>
       </div>
-      <Checkmark>
-        <img src='' alt='ayyy lmao' />
+      <Checkmark checked={checked} onClick={handleClick}>
+        <img src={checkmark} alt='ayyy lmao' />
       </Checkmark>
     </HabitWrapper>
   );
@@ -32,7 +49,7 @@ const HabitWrapper = styled.div`
     p {
        color: #666666; 
        font-weight: 400;
-       font-size: 12.98px;
+       font-size: 12.98px;}
 `;
 
 const Checkmark = styled.div`
@@ -44,5 +61,5 @@ const Checkmark = styled.div`
   height: 69px;
 
   border-radius: 5px;
-  background: #ebebeb;
+  background: ${(props) => (props.checked ? '#8FC549': '#ebebeb')};
 `;

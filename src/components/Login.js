@@ -1,12 +1,11 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useState, useContext } from 'react';
-import UserImageContext from '../contexts/UserImageContext';
-import TokenContext from '../contexts/TokenContext';
+import UserContext from '../contexts/UserContext';
 
 import styled from 'styled-components';
 import axios from 'axios';
 
-import logo from './logo.png';
+import TrackItBig from '../assets/TrackItBig.png';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 import Loader from 'react-loader-spinner';
 
@@ -16,7 +15,7 @@ export default function Login() {
 
   const [disabled, setDisabled] = useState(false);
 
-  const { userImage, setUserImage } = useContext(UserImageContext);
+  const { user, setUser } = useContext(UserContext);
 
   let navigate = useNavigate();
 
@@ -35,7 +34,7 @@ export default function Login() {
   pLogin.then((res) => {
     navigate('/hoje');
     setDisabled(false);
-    setUserImage(res.data.image);
+    setUser(res.data);
   });
 
   pLogin.catch((res) => {
@@ -45,7 +44,7 @@ export default function Login() {
   }
   return (
     <Container disabled={disabled}>
-      <img src={logo} alt='logo' />
+      <img src={TrackItBig} alt='TrackIt' />
       <form onSubmit={submitLogin}>
         <input
           type='email'

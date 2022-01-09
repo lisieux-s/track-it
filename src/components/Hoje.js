@@ -17,11 +17,9 @@ export default function Hoje() {
           <h1>{dayjs().format('dddd, DD/MM')}</h1>
           <p>Nenhum hábito concluído ainda</p>
         </header>
-        <form>
           <Habit />
           <Habit />
           <Habit />
-        </form>
       </Container>
     </>
   );

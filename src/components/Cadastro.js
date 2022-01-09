@@ -4,7 +4,7 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 
-import logo from './logo.png';
+import TrackItBig from '../assets/TrackItBig.png';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 import Loader from 'react-loader-spinner';
 
@@ -45,7 +45,7 @@ export default function Cadastro() {
 
   return (
     <Container disabled={disabled}>
-      <img src={logo} alt='logo' />
+      <img src={TrackItBig} alt='TrackIt' />
       <form onSubmit={submitSignUp}>
         <input
           type='email'

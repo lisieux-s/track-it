@@ -1,15 +1,25 @@
 import styled from 'styled-components';
-import { useContext } from 'react';
-import UserImageContext from '../contexts/UserImageContext';
+import { useState, useContext, useEffect } from 'react';
+
+import UserContext from '../contexts/UserContext';
+
 import TrackIt from '../assets/TrackIt.png'
 
 export default function Top() {
-  const { userImage, setUserImage } = useContext(UserImageContext);
-  console.log(userImage);
+  const { user, setUser } = useContext(UserContext);
+  const [image, setImage] = useState('')
+  console.log(user)
+
+  useEffect(() => {
+    if(user !== null) {
+      setImage(user.image)
+    } 
+  }, [user])
+  
   return (
     <TopContainer>
       <img src={TrackIt} alt='TrackIt' />
-      <User src={userImage} alt='User' />
+      <User src={image} alt='User' />
     </TopContainer>
   );
 }

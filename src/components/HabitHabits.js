@@ -1,6 +1,28 @@
 import styled from 'styled-components';
+import axios from 'axios';
+
+import Trashcan from '../assets/Trashcan.png'
+
+import TokenContext from '../contexts/TokenContext';
+import { useContext } from 'react';
 
 export default function Habit(props) {
+    const {token, setToken} = useContext(TokenContext)
+
+    function handleDelete() {
+            const config = {
+                headers: { Authorization: `Bearer ${token}` },
+              };
+          
+              let pDelete = axios.delete(
+                `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${props.id}`,
+                {
+                },
+                config
+              );
+        
+    }
+
     let days = props.days;
   return (
     <HabitWrapper>
@@ -9,18 +31,20 @@ export default function Habit(props) {
         <Weekday days={days} id={0}>
           D
         </Weekday>
-        <Weekday days={days} id={1}>D</Weekday>
-        <Weekday days={days} id={2}>D</Weekday>
-        <Weekday days={days} id={3}>D</Weekday>
-        <Weekday days={days} id={4}>D</Weekday>
-        <Weekday days={days} id={5}>D</Weekday>
-        <Weekday days={days} id={6}>D</Weekday>
+        <Weekday days={days} id={1}>S</Weekday>
+        <Weekday days={days} id={2}>T</Weekday>
+        <Weekday days={days} id={3}>Q</Weekday>
+        <Weekday days={days} id={4}>Q</Weekday>
+        <Weekday days={days} id={5}>S</Weekday>
+        <Weekday days={days} id={6}>S</Weekday>
       </Weekdays>
+      <img src={Trashcan} alt='delete' onClick={handleDelete}/>
     </HabitWrapper>
   );
 }
 
 const HabitWrapper = styled.div`
+position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -41,6 +65,12 @@ const HabitWrapper = styled.div`
     margin: 0;
     padding: 0;
     color: #666666;
+  }
+
+  img {
+      position: absolute;
+      top: 10px;
+      right: 10px;
   }
 `;
 const Weekday = styled.div`

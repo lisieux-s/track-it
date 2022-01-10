@@ -48,24 +48,28 @@ export default function Cadastro() {
       <img src={TrackItBig} alt='TrackIt' />
       <form onSubmit={submitSignUp}>
         <input
+        disabled={disabled} 
           type='email'
           placeholder='email'
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
         <input
+        disabled={disabled} 
           type='password'
           placeholder='senha'
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
         <input
+        disabled={disabled} 
           type='text'
           placeholder='nome'
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
         <input
+        disabled={disabled} 
           type='url'
           placeholder='foto'
           value={image}

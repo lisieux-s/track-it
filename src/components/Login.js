@@ -33,37 +33,39 @@ export default function Login() {
     );
     setDisabled(true);
 
-  pLogin.then((res) => {
-    navigate('/hoje');
-    setDisabled(false);
-    setUser(res.data);
-    setToken(res.data.token);
-  });
+    pLogin.then((res) => {
+      navigate('/hoje');
+      setDisabled(false);
+      setUser(res.data);
+      setToken(res.data.token);
+    });
 
-  pLogin.catch((res) => {
-    alert(res);
-    setDisabled(false);
-  });
+    pLogin.catch((res) => {
+      alert(res);
+      setDisabled(false);
+    });
   }
   return (
     <Container disabled={disabled}>
       <img src={TrackItBig} alt='TrackIt' />
       <form onSubmit={submitLogin}>
         <input
+          disabled={disabled}
           type='email'
           placeholder='email'
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
         <input
+          disabled={disabled}
+          s
           type='password'
           placeholder='senha'
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
         <button type='submit'>
-        {disabled ? <Loader type='ThreeDots' color='#FFFFFF' /> : 'Entrar'}
-
+          {disabled ? <Loader type='ThreeDots' color='#FFFFFF' /> : 'Entrar'}
         </button>
       </form>
       <StyledLink to='/cadastro'>Não tem uma conta? Cadastre-se!</StyledLink>

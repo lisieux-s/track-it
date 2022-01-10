@@ -2,6 +2,9 @@ import Top from './Top';
 import Menu from './Menu';
 import Habit from './HabitHabits';
 
+import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
+import Loader from 'react-loader-spinner';
+
 import styled from 'styled-components';
 import axios from 'axios';
 
@@ -13,8 +16,9 @@ export default function Habitos() {
   const { token, setToken } = useContext(TokenContext);
   const { habitsHabits, setHabitsHabits } = useContext(HabitsHabitsContext);
   const [name, setName] = useState('');
-  const [days] = useState([1, 3, 5]);
+  const [days, setDays] = useState([]);
   const [disabled, setDisabled] = useState(false);
+  const [hide, setHide] = useState(false)
 
   useEffect(() => {
     if (token === null) return;
@@ -33,7 +37,16 @@ export default function Habitos() {
   }, [token]);
 
   function toggleHide() {
-    setDisabled(!disabled);
+    setHide(!hide);
+  }
+  function handleCheckbox(e) {
+    if(e.target.checked) {
+      if(!days.includes(e.target.value)) {
+        setDays([...days, e.target.value])
+      } else {
+        setDays(days.filter(day => day !== e.target.value))
+      }
+    }
   }
 
   function handleSubmit(e) {
@@ -72,32 +85,32 @@ export default function Habitos() {
           <h1>Meus hábitos</h1>
           <Add onClick={toggleHide}>+</Add>
         </header>
-        <CreateHabitWrapper disabled={disabled}>
-          <form onSubmit={handleSubmit}>
+        <CreateHabitWrapper hide={hide}>
+          <form onSubmit={handleSubmit} disa>
             <input 
               onChange={(e) => setName(e.target.value)}
               value={name}
-              placeholder='nome do hábito'
+              disabled={disabled} 
               />
             <CreateHabitWeekdays>
               <label htmlFor='DOM'>D</label>
-              <CreateHabitWeekday type='checkbox' id='DOM' />
+              <CreateHabitWeekday value={0} disabled={disabled} type='checkbox' id='DOM' />
               <label htmlFor='SEG'>S</label>
-              <CreateHabitWeekday type='checkbox' id='SEG' />
+              <CreateHabitWeekday value={1} disabled={disabled} type='checkbox' id='SEG' />
               <label htmlFor='TER'>T</label>
-              <CreateHabitWeekday type='checkbox' id='TER' />
+              <CreateHabitWeekday value={2} disabled={disabled} type='checkbox' id='TER' />
               <label htmlFor='QUA'>Q</label>
-              <CreateHabitWeekday type='checkbox' id='QUA' />
+              <CreateHabitWeekday value={3} disabled={disabled} type='checkbox' id='QUA' />
               <label htmlFor='QUI'>Q</label>
-              <CreateHabitWeekday type='checkbox' id='QUI' />
+              <CreateHabitWeekday value={4} disabled={disabled} type='checkbox' id='QUI' />
               <label htmlFor='SEX'>S</label>
-              <CreateHabitWeekday type='checkbox' id='SEX' />
+              <CreateHabitWeekday value={5} disabled={disabled} type='checkbox' id='SEX' />
               <label htmlFor='SAB'>S</label>
-              <CreateHabitWeekday type='checkbox' id='SAB' />
+              <CreateHabitWeekday value={6} disabled={disabled} type='checkbox' id='SAB' />
             </CreateHabitWeekdays>
             <Buttons>
-              <Cancel type='button' onClick={toggleHide}>Cancelar</Cancel>
-              <Submit type='submit'>Salvar</Submit>
+              <Cancel disabled={disabled} type='button' onClick={toggleHide}>Cancelar</Cancel>
+              <Submit disabled={disabled} type='submit'>{disabled ? <Loader type='ThreeDots' color='#FFFFFF' /> : 'Salvar'}</Submit>
             </Buttons>
           </form>
         </CreateHabitWrapper>
@@ -107,7 +120,7 @@ export default function Habitos() {
             começar a trackear!
           </p>
         ) : (
-          habitsHabits.map((habit) => <Habit {...habit} />)
+          habitsHabits.map((habit) => <Habit  {...habit} />)
         )}
       </Container>
     </>
@@ -117,7 +130,7 @@ export default function Habitos() {
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  height: inherit;
+
   background: #f2f2f2;
   padding: 70px 18px;
 
@@ -150,7 +163,7 @@ const Add = styled.button`
 `;
 
 const CreateHabitWrapper = styled.div`
-  display: ${(props) => (!props.disabled ? 'none' : 'flex')};
+  display: ${(props) => (!props.hide ? 'none' : 'flex')};
   width: 100%;
   justify-content: center;
   align-items: center;
@@ -165,6 +178,8 @@ const CreateHabitWrapper = styled.div`
     width: 303px;
     height: 45px;
     color: #666666;
+    background: ${props => props.disabled ? '#F2F2F2' : '#fff'};
+
   }
   button {
     border-radius: 5px;
@@ -174,12 +189,31 @@ const CreateHabitWrapper = styled.div`
 `;
 const CreateHabitWeekdays = styled.div`
   display: flex;
+  gap: 5px;
+  margin-top: 8px;
   input {
     width: auto;
     height: auto;
   }
+
+  label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    width: 30px;
+    height: 30px;
+    border: 1px solid #D4D4D4;
+    border-radius: 5px;
+    color: #DBDBDB;
+
+    background: ${props => props.disabled ? '#F2F2F2' : '#fff'};
+
+ }
 `;
-const CreateHabitWeekday = styled.input``;
+const CreateHabitWeekday = styled.input`
+display: none
+`;
 
 const Buttons = styled.div`
   display: flex;
@@ -193,7 +227,8 @@ const Cancel = styled.button`
   border: none;
 `;
 const Submit = styled.button`
+ padding: 0;
   border: none;
-  background: #52b6ff;
+  background: ${props => props.disabled ? '#52B6FFB3' : '#52B6FF'};
   color: #fff;
 `;

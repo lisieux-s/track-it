@@ -20,23 +20,22 @@ export default function Hoje() {
   const {token, setToken} = useContext(TokenContext);
 
   useEffect(() => {
-
-      const config = {
-        headers: { Authorization : `Bearer ${token}`}
-      }
-      const pToday = axios.get(
-        'https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today',
-        config);
-
-      pToday.then((res) => {
-        setHabits(res.data)
-        console.log(res.data)
-      
-      })
-      pToday.catch(res => console.log(res))
-
+    console.log(token)
+    if(token===null) return
+    const config = {
+      headers: { Authorization : `Bearer ${token}`}
+    }
+    const pToday = axios.get(
+      'https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today',
+      config);
+    pToday.then((res) => {
+      setHabits(res.data)
+      console.log(res.data)
     
-  }, [])
+    })
+    pToday.catch(res => console.log(res))
+  
+}, [token]);
 ;
   dayjs.locale('pt-br');
   return (

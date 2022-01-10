@@ -1,28 +1,47 @@
 import styled from 'styled-components';
+import axios from 'axios';
+
 import checkmark from '../assets/Checkmark.svg'
 import { useState, useContext } from 'react';
 
+import TokenContext from '../contexts/TokenContext';
 import PercentageContext from '../contexts/PercentageContext';
 
 export default function Habit(props) {
   const [checked, setChecked] = useState(false);
-  const {percentage, setPercentage} = useContext(PercentageContext);
+  const {token, setToken} = useContext(TokenContext);
 
   function handleClick() {
+    const config = {
+      headers: { Authorization: `Bearer ${token}` },
+    };
+
     setChecked(!checked);
     if(!checked) {
-      setPercentage(75)
+      let pCheck = axios.post(
+      `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${props.id}/check`,
+      {},
+      config
+    );
+    pCheck.then()
+    pCheck.catch()
+
     } else {
-      setPercentage(0)
+      let pUncheck = axios.post(
+        `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${props.id}/uncheck`,
+        {}, config
+      );
+      pUncheck.then()
+      pUncheck.catch()
     }
   }
 
   return (
     <HabitWrapper checked={checked}>
       <div>
-        <h3>Ler 1 capítulo de livro</h3>
-        <p>Sequência atual: <span>3 dias</span></p>
-        <p>Seu recorde: 5 dias</p>
+        <h3>{props.name}</h3>
+        <p>Sequência atual: <span>{props.currentSequence} dias</span></p>
+        <p>Seu recorde: <Highest>{props.highestSequence} dias</Highest></p>
       </div>
       <Checkmark checked={checked} onClick={handleClick}>
         <img src={checkmark} alt='ayyy lmao' />
@@ -66,3 +85,9 @@ const Checkmark = styled.div`
   border-radius: 5px;
   background: ${(props) => (props.checked ? '#8FC549': '#ebebeb')};
 `;
+
+const Highest = styled.span`
+  color: ${props => props.checked && props.currentSequence >= props.highestSequence 
+  ? '#8FC549'
+  : '#666666'}
+`

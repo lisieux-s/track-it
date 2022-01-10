@@ -9,34 +9,34 @@ import axios from 'axios';
 
 import { useState, useContext, useEffect } from 'react';
 import PercentageContext from '../contexts/PercentageContext';
-import HabitsContext from '../contexts/HabitsTodayContext'
+import HabitsContext from '../contexts/HabitsTodayContext';
 import UserContext from '../contexts/UserContext';
 import TokenContext from '../contexts/TokenContext';
 
 export default function Hoje() {
-  const {user, setUser} = useContext(UserContext);
-  const {percentage, setPercentage} = useContext(PercentageContext);
-  const {habits, setHabits} = useContext(HabitsContext);
-  const {token, setToken} = useContext(TokenContext);
+  const { user, setUser } = useContext(UserContext);
+  const { percentage, setPercentage } = useContext(PercentageContext);
+  const { habits, setHabits } = useContext(HabitsContext);
+  const { token, setToken } = useContext(TokenContext);
 
   useEffect(() => {
-    console.log(token)
-    if(token===null) return
+    if (token === null) return;
     const config = {
-      headers: { Authorization : `Bearer ${token}`}
-    }
+      headers: { Authorization: `Bearer ${token}` },
+    };
     const pToday = axios.get(
       'https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today',
-      config);
+      config
+    );
     pToday.then((res) => {
-      setHabits(res.data)
-      console.log(res.data)
-    
-    })
-    pToday.catch(res => console.log(res))
-  
-}, [token]);
-;
+      setHabits(res.data);
+      
+    });
+    pToday.catch((res) => console.log(res));
+    if (habits === null) return;
+    setPercentage((habits.filter((habit) => habit.done === true))/habits.length);
+
+  }, [token, habits]);
   dayjs.locale('pt-br');
   return (
     <>
@@ -45,13 +45,13 @@ export default function Hoje() {
       <Container percentage={percentage}>
         <header>
           <h1>{dayjs().format('dddd, DD/MM')}</h1>
-          <h2>{percentage === 0 ? 
-          'Nenhum hábito concluído ainda'
-          :
-          '67% dos hábitos concluídos'
-          }</h2>
+          <h2>
+            {percentage === 0
+              ? 'Nenhum hábito concluído ainda'
+              : '67% dos hábitos concluídos'}
+          </h2>
         </header>
-          {!habits ? '' : habits.map((habit) => <Habit {...habit} />)}
+        {!habits ? '' : habits.map((habit) => <Habit {...habit} />)}
       </Container>
     </>
   );
@@ -72,6 +72,6 @@ const Container = styled.div`
   h2 {
     font-size: 17.98px;
     font-weight: 400;
-    color: ${props => props.percentage === 0 ? '#bababa' : '#8FC549'};
+    color: ${(props) => (props.percentage === 0 ? '#bababa' : '#8FC549')};
   }
 `;

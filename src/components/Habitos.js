@@ -11,7 +11,7 @@ import TokenContext from '../contexts/TokenContext';
 
 export default function Habitos() {
   const { token, setToken } = useContext(TokenContext);
-  const { habitsHabits, setHabitsHabits} = useContext(HabitsHabitsContext)
+  const { habitsHabits, setHabitsHabits } = useContext(HabitsHabitsContext);
   const [name, setName] = useState('teste');
   const [days] = useState([1, 3, 5]);
   const [disabled, setDisabled] = useState(false);
@@ -27,11 +27,14 @@ export default function Habitos() {
     );
     pHabits.then((res) => {
       setHabitsHabits(res.data);
-      console.log(res.data)
+      console.log(res.data);
     });
-    pHabits.catch(res => console.log(res))
-
+    pHabits.catch((res) => console.log(res));
   }, [token]);
+
+  function toggleHide() {
+    setDisabled(!disabled);
+  }
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -45,19 +48,20 @@ export default function Habitos() {
       {
         name,
         days,
-      }, config
+      },
+      config
     );
     setDisabled(true);
 
-  pNewHabit.then((res) => {
-    setDisabled(false);
-    console.log(res)
-  });
+    pNewHabit.then((res) => {
+      setDisabled(false);
+      console.log(res);
+    });
 
-  pNewHabit.catch((res) => {
-    alert(res);
-    setDisabled(false);
-  });
+    pNewHabit.catch((res) => {
+      alert(res);
+      setDisabled(false);
+    });
   }
   return (
     <>
@@ -65,51 +69,57 @@ export default function Habitos() {
       <Menu />
       <Container>
         <header>
-          <div>
-            <h1>Meus hábitos</h1>
-            <Add>+</Add>
-          </div>
-          <CreateHabitWrapper disabled={disabled}>
-            <form onSubmit={handleSubmit}>
-              <input />
-              <WeekdaysCreate>
-                <label htmlFor='DOM'>D</label>
-                <input type='checkbox' id='DOM'></input>
-                <label htmlFor='SEG'>S</label>
-                <input type='checkbox' id='SEG'></input>
-                <label htmlFor='TER'>T</label>
-                <input type='checkbox' id='TER'></input>
-                <label htmlFor='QUA'>Q</label>
-                <input type='checkbox' id='QUA'></input>
-                <label htmlFor='QUI'>Q</label>
-                <input type='checkbox' id='QUI'></input>
-                <label htmlFor='SEX'>S</label>
-                <input type='checkbox' id='SEX'></input>
-                <label htmlFor='SAB'>S</label>
-                <input type='checkbox' id='SAB'></input>
-              </WeekdaysCreate>
-              <div>
-                <button>Cancelar</button>
-                <button type='submit'>Salvar</button>
-              </div>
-            </form>
-          </CreateHabitWrapper>
-            {!habitsHabits
-              ? <p>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p>
-              : habitsHabits.map((habit => <Habit {...habit}/>))}
-          
+          <h1>Meus hábitos</h1>
+          <Add onClick={toggleHide}>+</Add>
         </header>
+        <CreateHabitWrapper disabled={disabled}>
+          <form onSubmit={handleSubmit}>
+            <input />
+            <CreateHabitWeekdays>
+              <label htmlFor='DOM'>D</label>
+              <CreateHabitWeekday type='checkbox' id='DOM' />
+              <label htmlFor='SEG'>S</label>
+              <CreateHabitWeekday type='checkbox' id='SEG' />
+              <label htmlFor='TER'>T</label>
+              <CreateHabitWeekday type='checkbox' id='TER' />
+              <label htmlFor='QUA'>Q</label>
+              <CreateHabitWeekday type='checkbox' id='QUA' />
+              <label htmlFor='QUI'>Q</label>
+              <CreateHabitWeekday type='checkbox' id='QUI' />
+              <label htmlFor='SEX'>S</label>
+              <CreateHabitWeekday type='checkbox' id='SEX' />
+              <label htmlFor='SAB'>S</label>
+              <CreateHabitWeekday type='checkbox' id='SAB' />
+            </CreateHabitWeekdays>
+            <Buttons>
+              <Cancel type='button' onClick={toggleHide}>Cancelar</Cancel>
+              <Submit type='submit'>Salvar</Submit>
+            </Buttons>
+          </form>
+        </CreateHabitWrapper>
+        {!habitsHabits ? (
+          <p>
+            Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para
+            começar a trackear!
+          </p>
+        ) : (
+          habitsHabits.map((habit) => <Habit {...habit} />)
+        )}
       </Container>
     </>
   );
 }
 
 const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: inherit;
   background: #f2f2f2;
-  height: 100vh;
   padding: 70px 18px;
 
   header {
+    display: flex;
+    justify-content: space-between;
     margin: 28px 0;
 
     div {
@@ -136,15 +146,45 @@ const Add = styled.button`
 `;
 
 const CreateHabitWrapper = styled.div`
-  display: flex;
+  display: ${(props) => (!props.disabled ? 'none' : 'flex')};
   width: 100%;
   justify-content: center;
   align-items: center;
   background: #fff;
   padding: 18px;
   border-radius: 5px;
+
   input {
-    width: 100%;
+    border: 1px solid #d4d4d4;
+    border-radius: 5px;
+    width: 303px;
+    height: 45px;
+  }
+  button {
+    border-radius: 5px;
+    width: 84px;
+    height: 35px;
   }
 `;
-const WeekdaysCreate = styled.div``;
+const CreateHabitWeekdays = styled.div`
+  display: flex;
+  input {
+    width: auto;
+    height: auto;
+  }
+`;
+const CreateHabitWeekday = styled.input``;
+const Buttons = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+const Cancel = styled.button`
+  color: #52b6ff;
+  background: none;
+  border: none;
+`;
+const Submit = styled.button`
+  border: none;
+  background: #52b6ff;
+  color: #fff;
+`;

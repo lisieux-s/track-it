@@ -10,19 +10,18 @@ export default function Habit(props) {
 
   function handleClick() {
     setChecked(!checked);
-    if(checked) {
-      setPercentage(100)
+    if(!checked) {
+      setPercentage(75)
     } else {
       setPercentage(0)
     }
-    console.log(percentage)
   }
 
   return (
-    <HabitWrapper>
+    <HabitWrapper checked={checked}>
       <div>
-        <h2>Ler 1 capítulo de livro</h2>
-        <p>Sequência atual: 3 dias</p>
+        <h3>Ler 1 capítulo de livro</h3>
+        <p>Sequência atual: <span>3 dias</span></p>
         <p>Seu recorde: 5 dias</p>
       </div>
       <Checkmark checked={checked} onClick={handleClick}>
@@ -41,7 +40,7 @@ const HabitWrapper = styled.div`
     border-radius: 5px;
     background: #FFFFFF;
     
-    h2 {
+    h3 {
        color: #666666; 
        font-weight: 400;
        font-size: 19.98px;
@@ -50,6 +49,10 @@ const HabitWrapper = styled.div`
        color: #666666; 
        font-weight: 400;
        font-size: 12.98px;}
+
+    span {
+      color: ${props => props.checked ? '#8FC549' : ''}
+    }
 `;
 
 const Checkmark = styled.div`

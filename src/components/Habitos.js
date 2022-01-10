@@ -2,7 +2,11 @@ import Top from './Top';
 import Menu from './Menu';
 import styled from 'styled-components';
 
+import { useContext } from 'react';
+import HabitsHabitsContext from '../contexts/HabitsHabitsContext';
+
 export default function Habitos() {
+  const { habitHabits, setHabitHabits } = useContext(HabitsHabitsContext);
   return (
     <>
       <Top />
@@ -14,7 +18,10 @@ export default function Habitos() {
             <Add>+</Add>
           </div>
           <p>
-          Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!
+          {!habitHabits ? 
+          'Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!' 
+          :
+          'teste'}
           </p>
         </header>
       </Container>

@@ -33,7 +33,7 @@ export default function Hoje() {
         console.log(res.data)
       
       })
-      pToday.catch();
+      pToday.catch(res => console.log(res))
 
     
   }, [])

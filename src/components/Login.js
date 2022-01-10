@@ -1,6 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useState, useContext } from 'react';
 import UserContext from '../contexts/UserContext';
+import TokenContext from '../contexts/TokenContext';
 
 import styled from 'styled-components';
 import axios from 'axios';
@@ -16,6 +17,7 @@ export default function Login() {
   const [disabled, setDisabled] = useState(false);
 
   const { user, setUser } = useContext(UserContext);
+  const { token, setToken } = useContext(TokenContext);
 
   let navigate = useNavigate();
 
@@ -35,6 +37,7 @@ export default function Login() {
     navigate('/hoje');
     setDisabled(false);
     setUser(res.data);
+    setToken(res.data.token);
   });
 
   pLogin.catch((res) => {

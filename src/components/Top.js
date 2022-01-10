@@ -8,7 +8,6 @@ import TrackIt from '../assets/TrackIt.png'
 export default function Top() {
   const { user, setUser } = useContext(UserContext);
   const [image, setImage] = useState('')
-  console.log(user)
 
   useEffect(() => {
     if(user !== null) {

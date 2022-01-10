@@ -1,25 +1,58 @@
 import Top from './Top';
 import Menu from './Menu';
-import Habit from './Habit';
+import Habit from './HabitToday';
 import styled from 'styled-components';
 
 import dayjs from 'dayjs';
 import 'dayjs/locale/pt-br';
+import axios from 'axios';
+
+import { useState, useContext, useEffect } from 'react';
+import PercentageContext from '../contexts/PercentageContext';
+import HabitsContext from '../contexts/HabitsTodayContext'
+import UserContext from '../contexts/UserContext';
+import TokenContext from '../contexts/TokenContext';
 
 export default function Hoje() {
+  const {user, setUser} = useContext(UserContext);
+  const {percentage, setPercentage} = useContext(PercentageContext);
+  const {habits, setHabits} = useContext(HabitsContext);
+  const {token, setToken} = useContext(TokenContext);
+
+  useEffect(() => {
+
+      const config = {
+        headers: { Authorization : `Bearer ${token}`}
+      }
+      const pToday = axios.get(
+        'https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today',
+        config);
+
+      pToday.then((res) => {
+        setHabits(res.data)
+        console.log(res.data)
+      
+      })
+      pToday.catch();
+
+    
+  }, [])
+;
   dayjs.locale('pt-br');
   return (
     <>
       <Top />
       <Menu />
-      <Container>
+      <Container percentage={percentage}>
         <header>
           <h1>{dayjs().format('dddd, DD/MM')}</h1>
-          <p>Nenhum hábito concluído ainda</p>
+          <h2>{percentage === 0 ? 
+          'Nenhum hábito concluído ainda'
+          :
+          '67% dos hábitos concluídos'
+          }</h2>
         </header>
-          <Habit />
-          <Habit />
-          <Habit />
+          {!habits ? '' : habits.map((habit) => <Habit {...habit} />)}
       </Container>
     </>
   );
@@ -37,7 +70,9 @@ const Container = styled.div`
     font-size: 22.98px;
     color: #126ba5;
   }
-  p {
-    color: #bababa;
+  h2 {
+    font-size: 17.98px;
+    font-weight: 400;
+    color: ${props => props.percentage === 0 ? '#bababa' : '#8FC549'};
   }
 `;

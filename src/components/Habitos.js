@@ -94,11 +94,10 @@ export default function Habitos() {
               </div>
             </form>
           </CreateHabitWrapper>
-          <p>
             {!habitsHabits
-              ? 'Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!'
+              ? <p>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p>
               : habitsHabits.map((habit => <Habit {...habit}/>))}
-          </p>
+          
         </header>
       </Container>
     </>
@@ -124,7 +123,6 @@ const Container = styled.div`
   }
   p {
     color: #bababa;
-    margin-top: 30px;
   }
 `;
 

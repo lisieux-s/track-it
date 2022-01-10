@@ -12,7 +12,7 @@ import TokenContext from '../contexts/TokenContext';
 export default function Habitos() {
   const { token, setToken } = useContext(TokenContext);
   const { habitsHabits, setHabitsHabits } = useContext(HabitsHabitsContext);
-  const [name, setName] = useState('teste');
+  const [name, setName] = useState('');
   const [days] = useState([1, 3, 5]);
   const [disabled, setDisabled] = useState(false);
 
@@ -74,7 +74,11 @@ export default function Habitos() {
         </header>
         <CreateHabitWrapper disabled={disabled}>
           <form onSubmit={handleSubmit}>
-            <input />
+            <input 
+              onChange={(e) => setName(e.target.value)}
+              value={name}
+              placeholder='nome do hábito'
+              />
             <CreateHabitWeekdays>
               <label htmlFor='DOM'>D</label>
               <CreateHabitWeekday type='checkbox' id='DOM' />
@@ -155,10 +159,12 @@ const CreateHabitWrapper = styled.div`
   border-radius: 5px;
 
   input {
+    padding: 10px;
     border: 1px solid #d4d4d4;
     border-radius: 5px;
     width: 303px;
     height: 45px;
+    color: #666666;
   }
   button {
     border-radius: 5px;
@@ -174,9 +180,12 @@ const CreateHabitWeekdays = styled.div`
   }
 `;
 const CreateHabitWeekday = styled.input``;
+
 const Buttons = styled.div`
   display: flex;
   justify-content: space-between;
+
+  margin-top: 32px;
 `;
 const Cancel = styled.button`
   color: #52b6ff;

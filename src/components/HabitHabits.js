@@ -27,7 +27,7 @@ const HabitWrapper = styled.div`
   align-items: center;
   background: #fff;
   border-radius: 5px;
-  margin: 10px 0;
+  margin-bottom: 10px;
   padding: 15px;
   height: 94px;
   gap: 8px;

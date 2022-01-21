@@ -19,7 +19,7 @@ export default function Hoje() {
   const { habits, setHabits } = useContext(HabitsContext);
   const { token, setToken } = useContext(TokenContext);
 
-  useEffect(() => {
+  function getHabits() {
     if (token === null) return;
     const config = {
       headers: { Authorization: `Bearer ${token}` },
@@ -33,10 +33,16 @@ export default function Hoje() {
       
     });
     pToday.catch((res) => console.log(res));
-    if (habits === null) return;
-    setPercentage((habits.filter((habit) => habit.done === true))/habits.length);
+  }
 
-  }, [token, habits]);
+  function getPercentage() {
+    console.log(habits.filter((habit) => habit.done === true))
+    //only showing when i reload page
+    setPercentage((habits.filter((habit) => habit.done === true))/habits.length);
+  }
+
+  useEffect(() => getHabits(), [token]);
+
   dayjs.locale('pt-br');
   return (
     <>
@@ -51,7 +57,7 @@ export default function Hoje() {
               : '67% dos hábitos concluídos'}
           </h2>
         </header>
-        {!habits ? '' : habits.map((habit) => <Habit {...habit} />)}
+        {!habits ? '' : habits.map((habit) => <Habit {...habit} getHabits={getHabits} />)}
       </Container>
     </>
   );

@@ -18,7 +18,7 @@ export default function Habitos() {
   const [name, setName] = useState('');
   const [days, setDays] = useState([]);
   const [disabled, setDisabled] = useState(false);
-  const [hide, setHide] = useState(false)
+  const [hide, setHide] = useState(false);
 
   useEffect(() => {
     if (token === null) return;
@@ -40,11 +40,11 @@ export default function Habitos() {
     setHide(!hide);
   }
   function handleCheckbox(e) {
-    if(e.target.checked) {
-      if(!days.includes(e.target.value)) {
-        setDays([...days, e.target.value])
+    if (e.target.checked) {
+      if (!days.includes(e.target.value)) {
+        setDays([...days, e.target.value]);
       } else {
-        setDays(days.filter(day => day !== e.target.value))
+        setDays(days.filter((day) => day !== e.target.value));
       }
     }
   }
@@ -68,7 +68,7 @@ export default function Habitos() {
 
     pNewHabit.then((res) => {
       setDisabled(false);
-      console.log(res);
+      console.log(res.data);
     });
 
     pNewHabit.catch((res) => {
@@ -87,30 +87,80 @@ export default function Habitos() {
         </header>
         <CreateHabitWrapper hide={hide}>
           <form onSubmit={handleSubmit} disa>
-            <input 
+            <input
               onChange={(e) => setName(e.target.value)}
               value={name}
-              disabled={disabled} 
-              />
+              disabled={disabled}
+            />
             <CreateHabitWeekdays>
               <label htmlFor='DOM'>D</label>
-              <CreateHabitWeekday value={0} disabled={disabled} type='checkbox' id='DOM' />
+              <CreateHabitWeekday
+                onClick={handleCheckbox}
+                value={0}
+                disabled={disabled}
+                type='checkbox'
+                id='DOM'
+              />
               <label htmlFor='SEG'>S</label>
-              <CreateHabitWeekday value={1} disabled={disabled} type='checkbox' id='SEG' />
+              <CreateHabitWeekday
+                onClick={handleCheckbox}
+                value={1}
+                disabled={disabled}
+                type='checkbox'
+                id='SEG'
+              />
               <label htmlFor='TER'>T</label>
-              <CreateHabitWeekday value={2} disabled={disabled} type='checkbox' id='TER' />
+              <CreateHabitWeekday
+                onClick={handleCheckbox}
+                value={2}
+                disabled={disabled}
+                type='checkbox'
+                id='TER'
+              />
               <label htmlFor='QUA'>Q</label>
-              <CreateHabitWeekday value={3} disabled={disabled} type='checkbox' id='QUA' />
+              <CreateHabitWeekday
+                onClick={handleCheckbox}
+                value={3}
+                disabled={disabled}
+                type='checkbox'
+                id='QUA'
+              />
               <label htmlFor='QUI'>Q</label>
-              <CreateHabitWeekday value={4} disabled={disabled} type='checkbox' id='QUI' />
+              <CreateHabitWeekday
+                onClick={handleCheckbox}
+                value={4}
+                disabled={disabled}
+                type='checkbox'
+                id='QUI'
+              />
               <label htmlFor='SEX'>S</label>
-              <CreateHabitWeekday value={5} disabled={disabled} type='checkbox' id='SEX' />
+              <CreateHabitWeekday
+                onClick={handleCheckbox}
+                value={5}
+                disabled={disabled}
+                type='checkbox'
+                id='SEX'
+              />
               <label htmlFor='SAB'>S</label>
-              <CreateHabitWeekday value={6} disabled={disabled} type='checkbox' id='SAB' />
+              <CreateHabitWeekday
+                onClick={handleCheckbox}
+                value={6}
+                disabled={disabled}
+                type='checkbox'
+                id='SAB'
+              />
             </CreateHabitWeekdays>
             <Buttons>
-              <Cancel disabled={disabled} type='button' onClick={toggleHide}>Cancelar</Cancel>
-              <Submit disabled={disabled} type='submit'>{disabled ? <Loader type='ThreeDots' color='#FFFFFF' /> : 'Salvar'}</Submit>
+              <Cancel disabled={disabled} type='button' onClick={toggleHide}>
+                Cancelar
+              </Cancel>
+              <Submit disabled={disabled} type='submit'>
+                {disabled ? (
+                  <Loader type='ThreeDots' color='#FFFFFF' />
+                ) : (
+                  'Salvar'
+                )}
+              </Submit>
             </Buttons>
           </form>
         </CreateHabitWrapper>
@@ -120,7 +170,7 @@ export default function Habitos() {
             começar a trackear!
           </p>
         ) : (
-          habitsHabits.map((habit) => <Habit  {...habit} />)
+          habitsHabits.map((habit) => <Habit {...habit} />)
         )}
       </Container>
     </>
@@ -178,8 +228,7 @@ const CreateHabitWrapper = styled.div`
     width: 303px;
     height: 45px;
     color: #666666;
-    background: ${props => props.disabled ? '#F2F2F2' : '#fff'};
-
+    background: ${(props) => (props.disabled ? '#F2F2F2' : '#fff')};
   }
   button {
     border-radius: 5px;
@@ -200,19 +249,18 @@ const CreateHabitWeekdays = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    
+
     width: 30px;
     height: 30px;
-    border: 1px solid #D4D4D4;
+    border: 1px solid #d4d4d4;
     border-radius: 5px;
-    color: #DBDBDB;
+    color: #dbdbdb;
 
-    background: ${props => props.disabled ? '#F2F2F2' : '#fff'};
-
- }
+    background: ${(props) => (props.disabled ? '#F2F2F2' : '#fff')};
+  }
 `;
 const CreateHabitWeekday = styled.input`
-display: none
+  display: none;
 `;
 
 const Buttons = styled.div`
@@ -227,8 +275,8 @@ const Cancel = styled.button`
   border: none;
 `;
 const Submit = styled.button`
- padding: 0;
+  padding: 0;
   border: none;
-  background: ${props => props.disabled ? '#52B6FFB3' : '#52B6FF'};
+  background: ${(props) => (props.disabled ? '#52B6FFB3' : '#52B6FF')};
   color: #fff;
 `;

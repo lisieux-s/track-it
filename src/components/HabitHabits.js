@@ -10,16 +10,18 @@ export default function Habit(props) {
     const {token, setToken} = useContext(TokenContext)
 
     function handleDelete() {
+      //adicionar confirm
             const config = {
                 headers: { Authorization: `Bearer ${token}` },
               };
           
               let pDelete = axios.delete(
                 `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${props.id}`,
-                {
-                },
                 config
               );
+              //deleta mas nao atualiza pag
+                //plano: mexer no useEffect em hábitos
+                //programação orientada a gambiarra: usar styleds para esconder a div aqui mesmo
         
     }
 
